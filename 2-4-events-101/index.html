@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Events 101</title>
+  <link rel="stylesheet" href="day.css">
+</head>
+<body>
+
+  <h1>My Website</h1>
+
+  <button data-file="day">Day</button>
+  <button data-file="night">Night</button>
+
+  <script src="../jquery.js"></script>
+  <script>
+    (function() {
+      var link = $("link");
+
+      function changeTheme() {
+        var $this = $(this);
+
+        link.attr("href", $this.text().toLowerCase() + ".css");
+        //link.attr("href", $this.data("file") + ".css");
+
+        $this
+          .siblings("button")
+            .removeAttr("disabled")
+            .end()
+          .attr("disabled", "disabled");
+      }
+
+      // Register EventHandler
+      $("button").on("click", changeTheme);
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+Follow along [Tutsplus - 30 Days to Learn jQuery](http://code.tutsplus.com/courses/30-days-to-learn-jquery)

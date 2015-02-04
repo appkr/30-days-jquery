@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Custom Events and The Observer Pattern</title>
+</head>
+<body>
+
+  <h1>Hi There</h1>
+
+  <script src="../jquery.js"></script>
+  <script>
+    (function($) {
+      /*
+      $.trigger(eventType);
+      $.map() for modify an array, on the other hand $.each to exucute each array element.
+      */
+
+      var o = $({});
+
+      $.each({
+        trigger: 'publish',
+        on: 'subscribe',
+        off: 'unsubscribe'
+      }, function(key, val) {
+        jQuery[val] = function() {
+          o[key].apply(o, arguments);
+        };
+      });
+
+      $.getJSON("http://gdata.youtube.com/feeds/api/standardfeeds/most_popular?alt=json&v=2", function(results) {
+        $.publish("youtube.ready", results);
+      });
+      $.subscribe("youtube.ready", function(e, results) {
+        $("body").html(
+          $.map(results.feed.entry, function(obj, index) {
+            return "<li>" + obj.title.$t + "</li>";
+          }).join('')
+        );
+      });
+
+
+      // $.getJSON("http://gdata.youtube.com/feeds/api/standardfeeds/most_popular?alt=json&v=2", function(results) {
+      //   // any processing you want
+      //   // and then announcement
+      //   $(document).trigger("youtube.ready", results);
+      // });
+      // $(document).on("youtube.ready", function(e, results) {
+      //   console.log(results);
+      // });
+
+      // var data;
+      // $.getJSON("http://gdata.youtube.com/feeds/api/standardfeeds/most_popular?alt=json&v=2", function(results) {
+      //   data = results;
+      // });
+      // console.log(data); // undefined, this is because it executes before $.getJSON occurs.
+
+      // $("body").on("app.clickityClack", function() {
+      //   console.log("clicked");
+      // });
+      // // ...
+      // $("body").trigger("app.clickityClack");
+
+    })(jQuery);
+  </script>
+</body>
+</html>

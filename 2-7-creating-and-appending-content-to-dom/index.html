@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Creating and Appending Content to Dom</title>
+  <style>
+    article {
+      width: 600px;
+      margin: auto;
+    }
+    blockquote.co {
+      float: right;
+      background: #e3e3e3;
+      font-size: 2em;
+      padding: 2em;
+      width: 35%;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <article>
+    <h1>My Auesome Post</h1>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus quaerat, dolor aspernatur maxime rerum harum laboriosam dolore. Earum soluta sint, voluptas iure, assumenda vitae neque fugiat molestiae ad et repellendus?
+    </p>
+    <p>
+      <span class="co">Lorem ipsum dolor sit amet</span>, consectetur adipisicing elit. Molestias explicabo temporibus quo? Cupiditate sint quisquam est voluptatem. Deserunt impedit officiis, sapiente iusto iure vitae ex, tempore, cum, autem nisi soluta! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloremque nihil, cumque voluptas aspernatur aut cupiditate ad ratione corporis reprehenderit voluptates omnis quam, est, exercitationem fuga veritatis velit, adipisci nam quidem! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam, alias! Aliquid veritatis odit nam quisquam adipisci reiciendis excepturi! Sit eius quisquam at, porro veniam nemo unde aperiam, distinctio suscipit natus.
+    </p>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus quaerat, dolor aspernatur maxime rerum harum laboriosam dolore. Earum soluta sint, voluptas iure, assumenda vitae neque fugiat molestiae ad et repellendus?
+    </p>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus quaerat, <span class="co">Lorem ipsum dolor sit amet</span>dolor aspernatur maxime rerum harum laboriosam dolore. Earum soluta sint, voluptas iure, assumenda vitae neque fugiat molestiae ad et repellendus? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure consequuntur animi quod eaque laboriosam quibusdam, rem suscipit quasi, quidem dolores. Quibusdam in laudantium animi totam magni excepturi autem tenetur cupiditate?
+    </p>
+  </article>
+
+  <script src="../jquery.js"></script>
+  <script>
+    (function () {
+      /*
+      append();
+      prepend();
+      before();
+      after();
+      appendTo();
+      prependTo();
+      insertAfter();
+      insertBefore();
+      */
+      // $("article").append("Hello from the JavaScript!");
+      // $("article").prepend("Hello from the JavaScript!");
+      // $("h1").after("Hello from the JavaScript!");
+      // $("p").first().before("Hello from the JavaScript!");
+
+      // $("<h2></h2>", {
+      //   text: "Hello from the JavaScript!",
+      //   class: "myClass"
+      // }).appendTo("article");
+
+      // $("<h2></h2>", {
+      //   text: "Hello from the JavaScript!",
+      //   class: "myClass"
+      // }).insertAfter("h1");
+
+
+      // $("<h2></h2>", {
+      //   text: "Hello from the JavaScript!",
+      //   class: "myClass"
+      // }).insertBefore("p:nth-child(3)");
+
+      // $("h1").appendTo("article");
+
+      // $("p").eq(0).after($("h1"));
+      // $("p").eq(0).after(function() {
+      //   return $(this).prev();
+      // });
+
+      var co = $("article").find("span.co").each(function() {
+        var $this = $(this);
+
+        $("<blockquote></blockquote>", {
+          class: "co",
+          text: $this.text()
+        }).prependTo($this.closest("p"));
+      });
+
+
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Full Control With The Animate Method</title>
+  <style>
+    body {
+      margin: 0;
+    }
+    .box {
+      width: 400px;
+      background: red;
+      padding: 2em;
+      position: relative;
+      -webkit-transition: border-radius 1s;
+    }
+    .rounded {
+      border-radius: 50px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="box">
+    <h2>Some Content Here</h2>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolores quos quibusdam animi porro aliquam atque hic fugiat voluptatibus sapiente dignissimos quas fuga eum, delectus, sit tenetur voluptate, quaerat quasi assumenda. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Id est ipsum temporibus, eos ea at aperiam, nisi laboriosam facere eaque quaerat atque beatae consequatur, odit. Veniam quos fuga enim minus.
+    </p>
+  </div>
+
+  <p>
+    <button id="increase">Increase</button>
+    <button id="center">Center</button>
+    <button id="round">Round Border</button>
+  </p>
+
+  <script src="../jquery.js"></script>
+  <script>
+    (function ($) {
+      /*
+      Css animation is much better in terms of performace
+      selector {transition: targetProperty duration(in sec)}
+      className {property: value}
+      $("selector").addClass('className');
+
+
+      $.animate({cssProperties}, speed, swing|linear|ease, callback);
+      $.animate({cssProperties}, {options})
+      */
+      var box = $("div.box"),
+          w = $(window).width() / 2 - box.outerWidth() / 2
+          h = $(window).height() / 2 - box.outerHeight() / 2;
+
+      $("#round").on("click", function() {
+        box.addClass("rounded");
+
+        // box.animate({
+        //   borderRadius: 50
+        // });
+      });
+
+      $("#center").on("click", function() {
+        box
+          .animate({
+            left: w,
+            top: h,
+            position: "absolute"
+          })
+          .animate({top: h}, {duration: 2000, queue: false});
+      });
+
+      $("#increase").on("click", function() {
+        box
+          .animate({fontSize: "+=5"}, {duration: 500})
+          .animate({top: 500}, {duration: 3000, queue: false});
+
+        // box
+        //   .animate({
+        //     fontSize: "+=5"
+        //   },
+        //   {
+        //     duration: 500,
+        //     complete: function() {
+        //       console.log("completed");
+        //     },
+        //     step: function() {
+        //       console.log("The current font-size is: " + $(this).css("font-size"));
+        //     }
+        //   })
+        //   .animate({
+        //     top: 50
+        //   });
+
+        // box.animate({
+        //   fontSize: "+=5",
+        //   width: "+=100"
+        // }, "_default", "swing", function() {
+        //   console.log("completed");
+        // });
+      });
+
+    })(jQuery);
+  </script>
+</body>
+</html>

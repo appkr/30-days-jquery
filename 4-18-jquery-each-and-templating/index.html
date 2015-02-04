@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>jQuery Each and Templating</title>
+</head>
+<body>
+
+  <script id="blogTemplate" type="tuts/template">
+    <h2>{{title}}</h2>
+    <img src="{{thumbnail}}" alt="{{title}}">
+  </script>
+
+  <script src="../jquery.js"></script>
+
+  <script>
+    (function () {
+      /*
+      $.trim();
+      $.each(array, callback(index, value){});
+      $.map();
+      $.grep();
+      */
+
+      var content = [
+        {
+          title: "My awesome blog post",
+          thumbnail: "https://developers.airplug.com/images/feature-data-saving.png"
+        },
+        {
+          title: "My second awesome blog post",
+          thumbnail: "https://developers.airplug.com/images/feature-fast-integration.png"
+        }
+      ],
+          template = $.trim($("#blogTemplate").html()),
+          frag = '';
+
+      $.each(content, function(index, obj) {
+        frag += template
+          .replace(/{{title}}/ig, obj.title)
+          .replace(/{{thumbnail}}/ig, obj.thumbnail);
+      });
+
+      $(document.body).append(frag); // use DocumentFragment
+
+    })();
+  </script>
+</body>
+</html>

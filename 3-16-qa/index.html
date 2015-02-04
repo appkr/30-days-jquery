@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>The Obligatory Slider</title>
+  <link rel="stylesheet" href="slider.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      width: 600px;
+      margin: 100px auto 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="slider">
+    <ul>
+      <li><img src="img/image1.gif" alt=""></li>
+      <li><img src="img/image2.gif" alt=""></li>
+      <li><img src="img/image3.gif" alt=""></li>
+      <li><img src="img/image4.gif" alt=""></li>
+    </ul>
+  </div>
+
+  <div id="slider-nav">
+    <button data-dir="prev">Previous</button>
+    <button data-dir="next">Next</button>
+  </div>
+
+  <script src="../jquery.js"></script>
+  <script src="slider.js"></script>
+  <script>
+    (function($) {
+
+      var container = $("div.slider").css("overflow", "hidden").children("ul"),
+          slider = new Slider( container, $("#slider-nav") );
+
+      // slider.nav.find("button").on("click", function() {
+      //   slider.setCurrent($(this).data("dir"));
+      //   slider.transition();
+      // })
+
+    })(jQuery);
+  </script>
+</body>
+</html>

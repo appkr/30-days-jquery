@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Events 201</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <dl>
+    <dt>What are your hours?</dt>
+    <dd>We are open 24/7.</dd>
+    <dt>What are your hours?</dt>
+    <dd>We are open 24/7.</dd>
+    <dt>What are your hours?</dt>
+    <dd>We are open 24/7.</dd>
+    <dt>What are your hours?</dt>
+    <dd>We are open 24/7.</dd>
+    <dt>What are your hours?</dt>
+    <dd>We are open 24/7.</dd>
+  </dl>
+
+  <script src="../jquery.js"></script>
+  <script>
+  /*
+  hide();
+  show();
+  fadeIn();
+  fadeOut();
+  slideDown();
+  slideUp();
+  toggle();
+  */
+    (function() {
+      $("dd").filter(":nth-child(n+4)").addClass("hide");
+
+      function expandPanel() {
+        $(this)
+          .next()
+            .slideDown("fast")
+            .siblings("dd")
+              .slideUp("fast");
+      }
+
+      // Event Delegation
+      $("dl").on("mouseenter", "dt", expandPanel);
+    })();
+  </script>
+</body>
+</html>

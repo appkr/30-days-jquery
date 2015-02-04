@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Say Hello to Handlebars</title>
+  <style>
+    h2 span {
+      color: gray;
+      font-size: .8em;
+    }
+  </style>
+</head>
+<body>
+
+  <ul class="tweets">
+    <script id="template" type="text/x-handlebars-template">
+      {{#each this}}
+      <li>
+        <h2>{{fullName author}} {{#if age}}<span> - {{age}}</span>{{/if}}</h2>
+        <p>{{{tweet}}}</p>
+        <h5>
+        {{#if quote}}
+          {{quote}}
+        {{else}}
+          Author does not have a quote.
+        {{/if}}
+        </h5>
+      </li>
+      {{/each}}
+    </script>
+  </ul>
+
+  <script src="../jquery.js"></script>
+  <script src="../handlebars-v2.0.0.js"></script>
+  <script>
+    (function($) {
+
+      var context = [
+        {
+          author: {first: "Jeffrey", last: "Way"},
+          tweet: "30 Days to learn jQuery Rocks",
+          age: 27,
+          quote: "Never ever, ever, ever give up."
+        },
+        {
+          author: {first: "John", last: "Doe"},
+          tweet: "<strong>30 Days</strong> to learn jQuery Rocks",
+          age: 45
+        }
+      ];
+
+      Handlebars.registerHelper("fullName", function(author) {
+        return author.first + " " + author.last;
+      });
+
+      var template = Handlebars.compile($("#template").html());
+
+      $("ul.tweets").append($.trim(template(context)));
+    })(jQuery);
+  </script>
+</body>
+</html>

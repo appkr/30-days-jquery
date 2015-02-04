@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>The Load Method</title>
+</head>
+<body>
+
+  <a href="about.html">Learn More About Me</a>
+  <br>
+  <a href="contact.html">Contact Me</a>
+  <div class="wrap"></div>
+
+  <script src="../jquery.js"></script>
+  <script>
+    (function($) {
+      // $.load(), $.getJSON(), $.get(), $.post(), $.getScript() are
+      // all pointing to ... $.ajax()
+
+      var wrap = $("div.wrap");
+
+      $("a").on("click", function(e) {
+        var href = $(this).attr("href");
+        wrap.load(href + " .container");
+        e.preventDefault();
+      });
+
+    })(jQuery);
+  </script>
+</body>
+</html>

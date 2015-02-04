@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Creating Custom Effect Methods</title>
+  <style>
+    p {margin-top: 0;}
+  </style>
+</head>
+<body>
+
+  <h1>Click Me</h1>
+  <div class="content">
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur doloribus fuga fugit, repellendus autem porro, temporibus quae numquam qui minus accusamus, eum! Recusandae eos sint maiores animi, aperiam assumenda, voluptas. Voluptatem totam, provident impedit itaque sint eius officiis rem consectetur ad dolores reiciendis nam repellendus voluptatibus, in deserunt non, voluptatum! Consequuntur delectus, nostrum natus nesciunt quidem. Similique minima accusantium exercitationem.
+    </p>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo quis quos a, enim, quo facere laboriosam. Natus, nihil eligendi! Consectetur animi necessitatibus maiores facilis excepturi tenetur illo harum placeat esse! Illum adipisci ex, soluta pariatur ipsam dolores deleniti accusantium voluptatem, laudantium illo, hic. Nemo labore aspernatur, accusamus velit porro molestias, suscipit sit nulla voluptate at iste magni dicta distinctio ad.
+    </p>
+  </div>
+
+  <script src="../jquery.js"></script>
+  <script>
+    /* jQuery alway returns jQuery object */
+    (function ($) {
+      var content = $("div.content").hide();
+
+      $.fn.flash = function(speed, easing, callback) {
+        var $this = $(this);
+        return $this.slideDown(500, function() {
+          $this.delay(2000).slideUp(500);
+        });
+        // return this.animate(props, speed, easing, callback);
+      }
+
+      $("h1").on("click", function() {
+        content.flash();
+      })
+    })(jQuery);
+  </script>
+</body>
+</html>

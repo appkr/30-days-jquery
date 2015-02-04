@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>No So Fast</title>
+</head>
+  <style>
+    .emphasis {
+      font-weight: bold;
+      color: red;
+    }
+  </style>
+<body>
+
+  <ul>
+    <li>hello</li>
+    <li>hello1</li>
+    <li>hello2</li>
+  </ul>
+
+  <script src="../jquery.js"></script>
+  <script>
+    // $(document).ready(function() {
+    //   $("li:first-child").addClass("emphasis");
+    // });
+
+    $(function() {
+      $("li:first-child").addClass("emphasis");
+    });
+  </script>
+</body>
+</html>

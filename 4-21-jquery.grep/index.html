@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>jQuery.grep</title>
+</head>
+<body>
+
+
+  <script src="../jquery.js"></script>
+  <script>
+    (function($) {
+
+      /*
+      $.grep(array, callback, bool inverse);
+      */
+
+      var arr = [
+        {first: "Juwon", last: "Kim"},
+        {first: "Miyoung", last: "Yang"},
+        {first: "Jahee", last: "Kim"},
+        {first: "Taehee", last: "Kim"}
+      ];
+
+      arr = $.grep(arr, function(obj, index) {
+        return obj.last === "Kim";
+      });
+
+      console.log(arr);
+
+      // var arr = [1,2,3,4,5,6,7,8,9,10];
+
+      // arr = $.grep(arr, function(val, index) {
+      //   // only return numbers that are greater than 5
+      //   return val > 5;
+      // }, true);
+
+      // console.log(arr);
+
+    })(jQuery);
+  </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bind, Live, Delegate</title>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Click Me</h2>
+    <h2>Click Me</h2>
+    <h2>Click Me</h2>
+    <h2>Click Me</h2>
+  </div>
+
+  <script src="../jquery.js"></script>
+  <script>
+    (function () {
+      function cloneElement() {
+        $(this).clone().appendTo("div.container");
+        // $(this).clone(true).appendTo("div.container");
+      }
+
+      $("div.container").on("click", "h2", cloneElement);
+    })();
+  </script>
+</body>
+</html>

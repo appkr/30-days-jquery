@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>The This Keyword</title>
+</head>
+<body>
+
+  <a href="http://developers.airplug.com">Click Me</a>
+
+  <script src="../jquery.js"></script>
+  <script>
+    /*
+    call(context, param1, param2, ...);
+    apply(context, [param1, param2, ...]);
+    $.proxy(callback, context);
+    */
+
+    var obj = {
+      doIt: function(e) {
+        console.log(this);
+        e.preventDefault();
+      }
+    };
+
+    $("a").on("click", $.proxy(obj.doIt, obj));
+
+    // function doSomething(e) {
+    //   e.preventDefault();
+    //   // console.log(e); // jQuery.Event
+    //   console.log(this); // <a></a>
+    //   console.log($(this)); // $("<a></a>")
+    // }
+
+    // $("a").on("click", function(e) {
+    //   obj.doIt.call(this);
+    //   e.preventDefault();
+    // });
+
+    // $("a").on("click", function(e) {
+    //   obj.doIt(e);
+    // });
+
+    // $("a").on("click", obj.doIt);
+
+    // $("a").on("click", doSomething);
+
+    // console.log(this); // Window
+  </script>
+</body>
+</html>

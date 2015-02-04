@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>The Basic Of Querying The Dom</title>
+  <style>
+    /*base styling*/
+    p, li {color: black;}
+
+    /*all childrens*/
+    /*ul.emphasis li {color: red; }*/
+
+    /*direct children*/
+    /*ul.emphasis > li {color: green; } */
+
+    .emphasis {color: red; }
+    .container {color: green; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome to My Website</h1>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </p>
+
+    <div class="container">
+      <ul class="emphasis container">
+        <li>item 1</li>
+        <li>item 2</li>
+        <li>item 3</li>
+        <li>item 4</li>
+        <li>item 5</li>
+        <li>
+          <ul>
+            <li>hello from the nest</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <script src="../jquery.js"></script>
+  <script>
+    // $("ul.emphasis").children("li").css("color", "green"); // direct children
+    // $("ul.emphasis").find("li").css("color", "green"); // all children
+
+    /* Use css selector if it is possible */
+
+    // $("ul.emphasis").find("li:first-child").addClass("emphasis");
+    // $("ul.emphasis").find("li:nth-child(1)").addClass("emphasis");
+    // $("ul.emphasis").children("li:first").addClass("emphasis");
+    // $("ul.emphasis").children("li").first().addClass("emphasis");
+    // $("ul.emphasis").children("li:nth-child(2)").text("added with jQuery");
+    // $("ul.emphasis").children("li").eq(1).text("added with jQuery");
+    // $("ul.emphasis").children("li").eq(3).next().text("added with jQuery");
+    // $("ul.emphasis").children("li").eq(3).prev().text("added with jQuery");
+
+    /* closest() is better in terms of performance */
+
+    // $("li").parent().removeClass("emphasis");
+    // $("li").parent("div.container").removeClass("container"); // direct parent
+    // $("li").parents("div.container").removeClass("container"); // all parents
+    // $("li").closest("div.container").removeClass("container"); // the very first closest parent, including self
+  </script>
+</body>
+</html>

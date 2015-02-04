@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Effects and Structure</title>
+  <style>
+    body {
+      width: 600px;
+      margin: auto;
+      font-family: sans-serif;
+    }
+
+    li {
+      list-style: none;
+    }
+
+    #contact {
+      background: #e3e3e3;
+      padding: 1em 2em;
+      position: relative;
+    }
+
+    .js #contact {
+      position: absolute;
+      top: 0;
+      width: inherit;
+      display: none;
+    }
+
+    #contact h2 {
+      margin-top: 0;
+    }
+
+    #contact ul {
+      padding: 0;
+    }
+
+    span.close {
+      cursor: pointer;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-weight: bold;
+      font-family: sans-serif;
+    }
+
+  </style>
+</head>
+<body>
+
+  <article>
+    <h1>My Awesome Post</h1>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis quia, architecto. Dicta ipsum, eos officia culpa non ullam, placeat rerum. Nulla natus, rem omnis quia veritatis hic. Accusantium, officia, explicabo.
+    </p>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur porro dolore asperiores aliquid, et, sit neque magnam mollitia dicta ipsam, repudiandae consequuntur, sapiente odit voluptate ipsa beatae quia modi dolores! Atque necessitatibus, quaerat laboriosam alias nam perspiciatis, aliquid magni maiores non impedit incidunt assumenda, ipsam laudantium totam mollitia nisi labore temporibus exercitationem cum. Iste dolores earum assumenda, nostrum ullam amet.
+    </p>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed nulla repellat, nemo dolorem debitis. Iure dignissimos sint, quas dicta nisi nam consequuntur aliquid quis commodi in blanditiis est incidunt quam!
+    </p>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Et consectetur quia eum excepturi recusandae, animi perferendis, minus repellendus illum possimus porro! Deserunt ducimus totam deleniti perspiciatis consequuntur, ratione cumque ea! Dolore, explicabo, laboriosam. Dolorem veniam recusandae in cupiditate repellat dolores minus eligendi corporis molestiae officiis provident vel quisquam, pariatur enim nostrum natus, officia fugit a facilis incidunt accusantium, laborum cum?
+    </p>
+  </article>
+
+  <div id="contact">
+    <h2>Contact Me</h2>
+    <form action="">
+      <ul>
+        <li>
+          <label for="name">Name:</label>
+          <input type="text" name="name" id="name">
+        </li>
+        <li>
+          <label for="email">Email Address:</label>
+          <input type="text" name="email" id="email">
+        </li>
+        <li>
+          <label for="comments">What's Up?</label>
+          <textarea name="comments" id="comments" cols="30" rows="10"></textarea>
+        </li>
+        <li>
+          <input type="submit" value="Submit">
+        </li>
+      </ul>
+    </form>
+  </div>
+
+  <script src="../jquery.js"></script>
+  <script>
+    (function () {
+      $("html").addClass("js");
+
+      var contactForm = {
+
+        container: $("#contact"),
+
+        config: {
+          /*
+          slideDown();
+          slideUp();
+          slideToggle();
+          fadeIn();
+          fadeOut();
+          fadeToggle();
+          */
+          effect: "slideToggle",
+          speed: 500
+        },
+
+        init: function(config) {
+          $.extend(this.config, config);
+          $("<button>", {
+            text: "Contact Me"
+          })
+            .insertAfter("article:first")
+            .on("click", this.show);
+        },
+
+        show: function() {
+          var self = contactForm,
+              container = self.container,
+              config = self.config;
+
+          if(container.is(":hidden")) {
+            self.close.call(container);
+            container[config.effect](config.speed);
+          }
+        },
+
+        close: function() {
+          var self = contactForm,
+              $this = $(this); // #container
+
+          // Donot draw "close" button if there already was one
+          // if ($this.find("span.close")[0]) return;
+          if ($this.find("span.close").length) return;
+
+          $("<span></span>", {
+            class: "close",
+            text: "X"
+          })
+            .prependTo(this)
+            .on("click", function() {
+              $this[self.config.effect](self.config.speed);
+            });
+        }
+
+      };
+
+      contactForm.init({
+        // effect: "fadeToggle",
+        // speed: 2000
+      });
+    })();
+  </script>
+</body>
+</html>

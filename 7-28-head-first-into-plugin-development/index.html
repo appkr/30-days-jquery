@@ -1,0 +1,71 @@
+<!-- Flickr API
+api_key, per_page, page
+d401046f072dae687da49de8cb79cf04
+&extra=description,owner_name,url_s,url_m,url_l
+
+https://api.flickr.com/services/rest/?method=flickr.interestingness.getList&api_key=d401046f072dae687da49de8cb79cf04&format=json&jsoncallback=myCallback
+https://api.flickr.com/services/rest/?method=flickr.interestingness.getList&api_key=d401046f072dae687da49de8cb79cf04&format=json&nojsoncallback=1&extras=description,owner_name,url_s,url_m,url_l
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Head First Into Plugin Development</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+  <style>
+    div.row {margin: 1em auto; }
+    img {width: 100%; max-width: 100%; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <div class="page-header">
+      <h1> Flickr Feeds Reader </h1>
+    </div>
+
+    <div class="image-container">
+      <script id="image-template" type="text/x-handlebars-template">
+        {{#each this}}
+          <div class="row">
+            {{#each this}}
+              <div class="col-md-3"><img src="{{url_s}}" alt="{{title}}"></div>
+            {{/each}}
+          </div>
+        {{/each}}
+      </script> <!-- template end -->
+    </div> <!-- .image-container end -->
+
+  </div> <!-- .container end -->
+
+  <script src="../jquery.js"></script>
+  <script src="../handlebars-v2.0.0.js"></script>
+  <script src="http://localhost:8888/7-28-head-first-into-plugin-development/flickr.jquery.js"></script>
+  <script>
+    (function($) {
+      // $.fn.flickr.options.limit = 4;
+
+      $("div.image-container").flickr();
+
+      // $("div.image-container").flickr("flickr.interestingness.getList");
+
+      // $("div.image-container").flickr({
+      //   apiKey: "d401046f072dae687da49de8cb79cf04",
+      //   method: "flickr.interestingness.getList",
+      //   template: $("#image-template").html(),
+      //   numRows: 3,
+      //   refresh: null,
+      //   transition: "slideToggle",
+      //   onComplete: function() {
+      //     console.log(arguments);
+      //   }
+      // });
+
+      // var instance = $.data($("div.image-container")[0], 'flickr');
+      // instance.url = "http://example.com";
+      // console.log(instance);
+    })(jQuery);
+  </script>
+</body>
+</html>

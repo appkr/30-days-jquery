@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>YouTube Feeds Reader - Refactored</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+  <style>
+    .video-let{margin: 1em auto; }
+    img {width: 100%; max-width: 100%; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <div class="page-header">
+      <h1> YouTube Feeds Reader </h1>
+    </div>
+
+    <form>
+      <div class="form-group">
+        <label for="myQuery">Feed to Fetch</label>
+        <select class="form-control" id="myQuery">
+          <option value="TEDtalksDirector">TED Talks</option>
+          <option value="ashleych0i">Ashley Choi</option>
+          <option value="BetaArtsHub">Beta Arts Networks</option>
+          <option value="davidchoimusic">David Choi Music</option>
+          <option value="gagnonstudio">Gagnon Studio</option>
+          <option value="HISHEdotcom">How it should have ended</option>
+          <option value="Jayesslee">Jayesslee</option>
+        </select>
+      </div>
+    </form>
+
+    <div id="video-container">
+      <!-- template -->
+      <script id="template" type="text/x-handlebars-template">
+        {{#each this}}
+          <div class="row video-let">
+            <div class="col-sm-4 video-col">
+              <a href="{{videoUrl}}" target="_blank">
+                <img src="{{thumbnail}}"/>
+              </a>
+            </div>
+
+            <div class="col-sm-8 content-col">
+              <h4>
+                <a href="{{videoUrl}}" target="_blank"> {{title}} </a>
+              </h4>
+              <p class="text-muted">
+                <span class="glyphicon glyphicon-user"></span> by {{author}}
+                <span class="glyphicon glyphicon-eye-open"></span> {{numberFormat viewCount}} views
+                <span class="glyphicon glyphicon-time"></span> {{duration}} sec
+                <span class="glyphicon glyphicon-calendar"></span> {{dateFormat published}}
+              </p>
+              <p class="text-muted">{{description}}</p>
+            </div>
+          </div>
+        {{/each}}
+      </script>
+      <!-- template end -->
+    </div>
+
+  </div>
+
+  <script src="../jquery.js"></script>
+  <script src="../handlebars-v2.0.0.js"></script>
+  <script>
+    /** PubSub */
+    (function($) {
+      var o = $({});
+
+      $.each({
+        trigger: 'publish',
+        on: 'subscribe',
+        off: 'unsubscribe'
+      }, function(key, api) {
+        $[api] = function() {
+          o[key].apply(o, arguments);
+        };
+      });
+    })(jQuery);
+
+    /** YouTube Class */
+    (function($) {
+      Handlebars.registerHelper("numberFormat", function(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      });
+      Handlebars.registerHelper("dateFormat", function(x) {
+        return x.split("T")[0];
+      });
+
+      var YouTube = {
+        init: function(config) {
+          this.template = config.template;
+          this.query = "TEDtalksDirector";
+          this.videos = [];
+
+          this.cache(config);
+          this.bindEvents();
+          this.subscriptions();
+
+          this.searchInput.val(this.query);
+          $.publish("youtube.query");
+
+          return this;
+        },
+
+        cache: function(config) {
+          this.container = config.container;
+          this.searchInput = config.searchInput;
+        },
+
+        bindEvents: function() {
+          this.searchInput.on("change", this.search);
+        },
+
+        subscriptions: function() {
+          $.subscribe("youtube.query", this.fetchJSON);
+          $.subscribe("youtube.ready", this.renderResults);
+        },
+
+        search: function() {
+          YouTube.query = $(this).val();
+          $.publish("youtube.query");
+
+          /** Jeff's original code*/
+          // var self = YouTube,
+          //     input = this;
+          // clearTimeout(self.timer);
+
+          // self.timer = (input.value.length >= 3) && setTimeout(function() {
+          //   self.query = input.value;
+          //   $.publish("youtube.ready");
+          // }, 400);
+        },
+
+        fetchJSON: function() {
+          var self = YouTube;
+              url = "http://gdata.youtube.com/feeds/mobile/users/" + self.query + "/uploads?orderby=published&alt=json&v=2";
+
+          $.getJSON(url, function(data) {
+            self.videos = $.map(data.feed.entry, function(entry) {
+              return {
+                videoId: entry.media$group.yt$videoid.$t,
+                author: entry.author[0].name.$t,
+                title: entry.media$group.media$title.$t,
+                description: entry.media$group.media$description.$t,
+                thumbnail: entry.media$group.media$thumbnail[3].url,
+                videoUrl: entry.media$group.media$player.url,
+                duration: parseInt(entry.media$group.yt$duration.seconds),
+                viewCount: parseInt(entry.yt$statistics.viewCount),
+                published: entry.published.$t
+              }
+            });
+
+            self.videos.feedName = self.feed;
+
+            $.publish("youtube.ready");
+          });
+        },
+
+        renderResults: function() {
+          var self = YouTube,
+          template = Handlebars.compile(self.template);
+
+          self.container.empty().append($.trim(template(self.videos)))
+        }
+      };
+
+      window.YouTube = YouTube.init({
+        template: $("#template").html(),
+        container: $("#video-container"),
+        searchInput: $("#myQuery")
+      });
+
+    })(jQuery);
+  </script>
+</body>
+</html>

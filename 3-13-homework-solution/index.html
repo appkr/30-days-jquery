@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>FadeSlideToggle</title>
+  <style>
+    body {
+      margin: 0;
+    }
+    .box {
+      width: 400px;
+      background: red;
+      padding: 2em;
+      position: relative;
+      -webkit-transition: border-radius 1s;
+    }
+    .rounded {
+      border-radius: 50px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="box">
+    <h2>Hi There</h2>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolores quos quibusdam animi porro aliquam atque hic fugiat voluptatibus sapiente dignissimos quas fuga eum, delectus, sit tenetur voluptate, quaerat quasi assumenda. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Id est ipsum temporibus, eos ea at aperiam, nisi laboriosam facere eaque quaerat atque beatae consequatur, odit. Veniam quos fuga enim minus.
+    </p>
+  </div>
+
+  <p> <button>FadeSlideToggle</button></p>
+
+  <script src="../jquery.js"></script>
+  <script>
+    (function ($) {
+      var box = $("div.box");
+
+      $.fn.FadeSlideToggle = function(speed, fn) {
+        return $(this).animate({
+          height: "toggle",
+          opacity: "toggle"
+        }, speed || 400, function() {
+          $.isFunction(fn) && fn.call(this);
+        });
+      };
+
+      $("button").on("click", function() {
+        box.FadeSlideToggle(2000, function() {
+          console.log("completed");
+        });
+      });
+    })(jQuery);
+  </script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Templating and YouTube</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+  <style>
+    .video-let{margin: 1em auto; }
+    img {width: 100%; max-width: 100%; }
+  </style>
+</head>
+<body>
+
+  <div class="container" id="video-container">
+    <!-- template -->
+    <script id="template" type="text/x-handlebars-template">
+      <div class="page-header">
+        <h1> YouTube Videos {{#if feedName}}<small> {{feedName}}</small>{{/if}}</h1>
+      </div>
+      {{#each this}}
+        <div class="row video-let">
+          <div class="col-sm-4 video-col">
+            <a href="{{videoUrl}}">
+              <img src="{{thumbnail}}"/>
+            </a>
+          </div>
+
+          <div class="col-sm-8 content-col">
+            <h4>
+              <a href="{{videoUrl}}"> {{title}} </a>
+            </h4>
+            <p class="text-muted">
+              <span class="glyphicon glyphicon-user"></span> by {{author}}
+              <span class="glyphicon glyphicon-eye-open"></span> {{numberFormat viewCount}} views
+              <span class="glyphicon glyphicon-time"></span> {{duration}} sec
+            </p>
+            <p class="text-muted">{{description}}</p>
+          </div>
+        </div>
+      {{/each}}
+    </script>
+    <!-- template end -->
+  </div>
+
+  <script src="../jquery.js"></script>
+  <script src="../handlebars-v2.0.0.js"></script>
+  <script>
+    (function($) {
+
+      /*
+      $.deferred()
+      Basic is $.when(ajaxRequest).then(doThis);
+      */
+
+      Handlebars.registerHelper("numberFormat", function(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      });
+
+      var YouTube = {
+        init: function(config) {
+          this.feed = config.feed || "most_popular";
+          this.url = "http://gdata.youtube.com/feeds/api/standardfeeds/" + this.feed + "?alt=json&v=2";
+          this.template = config.template;
+          this.container = config.container;
+          this.fetch();
+        },
+
+        attachTemplate: function() {
+          var template = Handlebars.compile(this.template);
+
+          this.container.append($.trim(template(this.videos)))
+        },
+
+        fetch: function() {
+          var self = this;
+
+          $.getJSON(this.url, function(data) {
+            self.videos = $.map(data.feed.entry, function(entry) {
+              return {
+                videoId: entry.media$group.yt$videoid.$t,
+                author: entry.author[0].name.$t,
+                title: entry.media$group.media$title.$t,
+                description: entry.media$group.media$description.$t,
+                thumbnail: entry.media$group.media$thumbnail[3].url,
+                videoUrl: entry.media$group.media$player.url,
+                duration: parseInt(entry.media$group.yt$duration.seconds),
+                viewCount: parseInt(entry.yt$statistics.viewCount)
+              }
+            });
+
+            self.videos.feedName = self.feed;
+            self.attachTemplate();
+          });
+        }
+      };
+
+      YouTube.init({
+        template: $("#template").html(),
+        container: $("#video-container"),
+        feed: ""// most_viewed|most_popular
+      });
+
+    })(jQuery);
+  </script>
+</body>
+</html>

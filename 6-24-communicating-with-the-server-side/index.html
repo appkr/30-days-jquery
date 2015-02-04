@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Communicating With The Server Side</title>
+</head>
+<body>
+
+  <h1>Something to Save</h1>
+
+  <form action="#">
+    <input type="text" name="content" id="content"/>
+    <button type="submit">Send</button>
+  </form>
+
+  <div id="history" style="margin-top: 2em"></div>
+
+  <script src="../jquery.js"></script>
+  <script>
+    (function($) {
+
+      var history = $("div#history");
+
+      $.ajax({
+        url: "load.php"
+      }).success(function(data) {
+        history.html(data);
+      });
+
+      $("form").on("submit", function(e) {
+        $.ajax({
+          type: "POST",
+          url: "save.php",
+          data: $(this).serialize()
+        }).success(function(data) {
+          history.append(data.data + "<br/>");
+        });
+        e.preventDefault();
+      });
+
+    })(jQuery);
+  </script>
+</body>
+</html>

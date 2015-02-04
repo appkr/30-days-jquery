@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Deferreds</title>
+  <style>
+    .box {
+      width: 100px;
+      height: 100px;
+      background: green;
+      display: inline-block;
+      margin-right: 3em;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="box">my box</div>
+  <div class="box">my box</div>
+  <div class="box">my box</div>
+
+  <script src="../jquery.js"></script>
+  <script>
+    (function($) {
+
+      function fetchYouTubeFeed(userName) {
+        return $.ajax({
+          url: "http://gdata.youtube.com/feeds/mobile/users/" + (userName || "TEDtalksDirector") + "/uploads",
+          data: {orderby: "published", alt: "json", v: 2},
+          dataType: "json"
+        }).promise();
+      };
+
+      $.when(fetchYouTubeFeed('Jayesslee'), fetchYouTubeFeed('davidchoimusic'))
+        .done(function(results1, results2) {
+          console.log(results1[0].feed.entry);
+          console.log(results2[0].feed.entry);
+        }).fail(function() {
+          console.log("Some bad thing happened!");
+        });
+
+      // $("div.box").each(function(i) {
+      //   $(this).delay(1000 * i++).fadeOut(1000);
+      // }).promise().done(function() {
+      //   console.log("All animations have fired.");
+      // });
+
+      // $.fetchYouTube = function(feed) {
+      //   return $.ajax({
+      //     url: "http://gdata.youtube.com/feeds/mobile/users/" + (feed || "TEDtalksDirector") + "/uploads",
+      //     data: {orderby: "published", alt: "json", v: 2},
+      //     dataType: "json"
+      //   }).promise();
+      // };
+
+      // $.fetchYouTube()
+      //   .done(function(results) {
+      //     console.log(results.feed.entry);
+      //   }).fail(function() {
+      //     console.log("Some bad thing happened!");
+      //   });
+
+      // var myVar;
+      // var setVal = function() {
+      //   var deferred = $.Deferred();
+      //   setTimeout(function() {
+      //     myVar = 'myValue';
+      //     deferred.resolve();
+      //     // deferred.reject();
+      //   }, 2000);
+
+      //   return deferred.promise();
+      // };
+
+      // setVal().done(function() {
+      //   console.log('All done! ' + myVar);
+      // }).fail(function() {
+      //   console.log('Failed! ' + myVar);
+      // }).always(function() {
+      //   console.log('Always! ' + myVar);
+      // });
+
+      // setVal().then(function() {
+      //   console.log('All done! ' + myVar);
+      // }, function() {
+      //   console.log('Failed! ' + myVar);
+      // });
+
+      // setTimeout(function() {
+      //   myVar = 'myValue';
+      //   console.log(myVar + " in the Timeout");
+      // }, 2000);
+      // console.log(myVar);
+
+
+    })(jQuery);
+  </script>
+</body>
+</html>
